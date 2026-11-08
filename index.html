@@ -58,38 +58,55 @@
 <body>
 
   <div class="card">
-    <div class="badge">Prime Verify Portal</div>
-    <h2>Security Check</h2>
-    <p>Please wait while we verify your session before proceeding to the ad sponsor.</p>
-    <div id="countdown" class="status">Starting in 5s...</div>
-    <a id="proceedBtn" class="btn" style="display: none;" href="#">Click here if not redirected</a>
+    <div class="badge">Prime Shield Gate</div>
+    <h2>Security Verification</h2>
+    <p>Verifying secure connection. Please wait before proceeding to the ad sponsor.</p>
+    <div id="countdown" class="status">Verifying in 5s...</div>
+    <a id="proceedBtn" class="btn" style="display: none;" href="#">Continue</a>
   </div>
 
 <script>
-  // 1. Read the short link passed from the bot
   const params = new URLSearchParams(window.location.search);
-  const nextUrl = params.get('next');
+  const encodedGo = params.get('go');
+  const tok = params.get('tok');
+  const code = params.get('code') || 'none';
+  const uid = params.get('uid') || '0';
+  const botName = "FILE_STOREB_BOT";
+
+  let destination = null;
+
+  // Case 1: Shielded LiteShort link passed via ?go=
+  if (encodedGo) {
+    try {
+      destination = atob(decodeURIComponent(encodedGo));
+    } catch (e) {
+      destination = null;
+    }
+  } 
+  // Case 2: Returning from LiteShort verification back to Bot
+  else if (tok) {
+    destination = `https://t.me/${botName}?start=v_${tok}_${code}_${uid}`;
+  }
 
   let seconds = 5;
   const countdownEl = document.getElementById('countdown');
   const proceedBtn = document.getElementById('proceedBtn');
 
-  if (!nextUrl) {
+  if (!destination) {
     countdownEl.innerText = "Error: Invalid link";
     countdownEl.style.color = "#f87171";
   } else {
-    proceedBtn.href = nextUrl;
+    proceedBtn.href = destination;
 
     const timer = setInterval(() => {
       seconds--;
       if (seconds > 0) {
-        countdownEl.innerText = `Starting in ${seconds}s...`;
+        countdownEl.innerText = `Redirecting in ${seconds}s...`;
       } else {
         clearInterval(timer);
-        countdownEl.innerText = "Redirecting to ad sponsor...";
+        countdownEl.innerText = "Proceeding...";
         proceedBtn.style.display = "inline-block";
-        // Automatically forward to LiteShort
-        window.location.href = nextUrl;
+        window.location.href = destination;
       }
     }, 1000);
   }
