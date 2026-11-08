@@ -26,56 +26,62 @@
     }
     h2 { margin-bottom: 10px; color: #38bdf8; }
     p { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
+    .status {
+      font-size: 18px;
+      font-weight: bold;
+      color: #38bdf8;
+      margin-bottom: 15px;
+    }
     .btn {
       display: inline-block;
       width: 100%;
       padding: 12px;
       border-radius: 8px;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: bold;
       text-decoration: none;
       cursor: pointer;
       border: none;
+      background: #0284c7;
+      color: white;
     }
-    .btn-wait { background: #334155; color: #64748b; cursor: not-allowed; }
-    .btn-go { background: #0284c7; color: white; }
   </style>
 </head>
 <body>
 
 <div class="box">
-  <h2>Security Check</h2>
-  <p>Please wait 5 seconds to load your secure Telegram link.</p>
-  <button id="btn" class="btn btn-wait" disabled>Please wait 5s...</button>
+  <h2>Security Verification</h2>
+  <p>Verifying session... You will be redirected to the bot automatically.</p>
+  <div id="countdown" class="status">Redirecting in 5s...</div>
+  <a id="manualBtn" class="btn" style="display: none;" href="#">Click here if not redirected</a>
 </div>
 
 <script>
-  // 1. Read query parameters from URL: ?tok=...&code=...&uid=...
+  // Read clean parameters from the landing URL
   const params = new URLSearchParams(window.location.search);
   const tok = params.get('tok') || '';
   const code = params.get('code') || '';
   const uid = params.get('uid') || '';
 
-  // 2. Put your actual Telegram bot username here (without @)
   const botName = "FILE_STOREB_BOT";
+  const targetUrl = `https://t.me/${botName}?start=v_${tok}_${code}_${uid}`;
 
   let seconds = 5;
-  const btn = document.getElementById('btn');
+  const countdownEl = document.getElementById('countdown');
+  const manualBtn = document.getElementById('manualBtn');
 
   const timer = setInterval(() => {
     seconds--;
     if (seconds > 0) {
-      btn.innerText = `Please wait ${seconds}s...`;
+      countdownEl.innerText = `Redirecting in ${seconds}s...`;
     } else {
       clearInterval(timer);
-      btn.innerText = "Continue to Bot";
-      btn.className = "btn btn-go";
-      btn.disabled = false;
+      countdownEl.innerText = "Redirecting now...";
+      manualBtn.href = targetUrl;
+      manualBtn.style.display = "inline-block";
 
-      // 3. When button is clicked, send user back to bot with verified token
-      btn.onclick = () => {
-        window.location.href = `https://t.me/${botName}?start=v_${tok}_${code}_${uid}`;
-      };
+      // Direct automatic redirect to bot
+      window.location.href = targetUrl;
     }
   }, 1000);
 </script>
