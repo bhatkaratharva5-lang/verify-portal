@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verification Portal</title>
+  <style>
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .box {
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 360px;
+      width: 90%;
+      border: 1px solid #334155;
+    }
+    h2 { margin-bottom: 10px; color: #38bdf8; }
+    p { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
+    .btn {
+      display: inline-block;
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-wait { background: #334155; color: #64748b; cursor: not-allowed; }
+    .btn-go { background: #0284c7; color: white; }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Security Check</h2>
+  <p>Please wait 5 seconds to load your secure Telegram link.</p>
+  <button id="btn" class="btn btn-wait" disabled>Please wait 5s...</button>
+</div>
+
+<script>
+  // 1. Read query parameters from URL: ?tok=...&code=...&uid=...
+  const params = new URLSearchParams(window.location.search);
+  const tok = params.get('tok') || '';
+  const code = params.get('code') || '';
+  const uid = params.get('uid') || '';
+
+  // 2. Put your actual Telegram bot username here (without @)
+  const botName = "atharvaxfilebot";
+
+  let seconds = 5;
+  const btn = document.getElementById('btn');
+
+  const timer = setInterval(() => {
+    seconds--;
+    if (seconds > 0) {
+      btn.innerText = `Please wait ${seconds}s...`;
+    } else {
+      clearInterval(timer);
+      btn.innerText = "Continue to Bot";
+      btn.className = "btn btn-go";
+      btn.disabled = false;
+
+      // 3. When button is clicked, send user back to bot with verified token
+      btn.onclick = () => {
+        window.location.href = `https://t.me/${botName}?start=v_${tok}_${code}_${uid}`;
+      };
+    }
+  }, 1000);
+</script>
+
+</body>
+</html>
