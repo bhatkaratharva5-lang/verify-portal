@@ -2,207 +2,328 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Security Verification Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Prime Protocol Secure Gateway</title>
   <style>
     :root {
-      --ios-blue: #007AFF;
-      --ios-glass: rgba(255, 255, 255, 0.12);
-      --ios-border: rgba(255, 255, 255, 0.22);
-      --ios-text: #FFFFFF;
-      --ios-sub: rgba(235, 235, 245, 0.65);
+      --bg: #07090e;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --accent: #3b82f6;
+      --accent-glow: rgba(59, 130, 246, 0.4);
+      --success: #10b981;
+      --success-glow: rgba(16, 185, 129, 0.4);
+      --text: #f9fafb;
+      --text-muted: #94a3b8;
     }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       -webkit-tap-highlight-color: transparent;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
     }
+
     body {
+      background: radial-gradient(circle at 50% 10%, #172554, var(--bg) 60%);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
-      background: #0B0E14;
-      position: relative;
-      overflow: hidden;
+      padding: 20px 16px;
+      overflow-x: hidden;
     }
-    .ambient-bg {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
-    }
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.55;
-      animation: floatLiquid 12s infinite alternate ease-in-out;
-    }
-    .blob-1 { width: 320px; height: 320px; background: radial-gradient(circle, #007AFF, #00C6FF); top: -80px; left: -60px; }
-    .blob-2 { width: 360px; height: 360px; background: radial-gradient(circle, #7928CA, #FF0080); bottom: -100px; right: -80px; animation-duration: 15s; }
-    @keyframes floatLiquid {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(25px, -30px); }
-    }
-    .card {
-      position: relative;
-      z-index: 2;
+
+    /* iOS Liquid Glass Container */
+    .portal-card {
       width: 100%;
-      max-width: 400px;
-      background: var(--ios-glass);
-      backdrop-filter: blur(40px) saturate(190%);
-      -webkit-backdrop-filter: blur(40px) saturate(190%);
-      border-radius: 34px;
-      border: 1px solid var(--ios-border);
-      padding: 38px 28px 32px;
+      max-width: 440px;
+      background: var(--card-bg);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 32px 24px;
       text-align: center;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(59, 130, 246, 0.15);
+      position: relative;
     }
-    .badge-icon {
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 18px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      display: flex;
+
+    .badge {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      box-shadow: 0 10px 25px rgba(0, 122, 255, 0.3);
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #60a5fa;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
     }
-    .badge-icon svg {
-      width: 30px;
-      height: 30px;
-      stroke: #FFFFFF;
-      stroke-width: 2.2;
-      fill: none;
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 10px #38bdf8;
+      animation: pulse 2s infinite;
     }
+
     h1 {
       font-size: 24px;
       font-weight: 700;
-      color: #FFFFFF;
       margin-bottom: 8px;
+      letter-spacing: -0.5px;
     }
-    p {
-      font-size: 15px;
-      line-height: 1.45;
-      color: var(--ios-sub);
+
+    p.subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.5;
       margin-bottom: 24px;
     }
-    .file-box {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 18px;
-      padding: 12px 16px;
-      margin-bottom: 22px;
+
+    /* Timer Graphic */
+    .timer-circle-wrap {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 24px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      font-size: 13px;
+      justify-content: center;
     }
-    .file-id-text {
-      font-family: ui-monospace, Menlo, monospace;
-      color: #70C0FF;
-      font-weight: 600;
-    }
-    .btn {
+
+    .timer-circle-wrap svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: rotate(-90deg);
       width: 100%;
-      height: 54px;
+      height: 100%;
+    }
+
+    .timer-circle-wrap circle {
+      fill: none;
+      stroke-width: 6;
+      stroke-linecap: round;
+    }
+
+    .circle-bg {
+      stroke: rgba(255, 255, 255, 0.08);
+    }
+
+    .circle-progress {
+      stroke: var(--accent);
+      stroke-dasharray: 264;
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 1s linear, stroke 0.3s ease;
+    }
+
+    .timer-number {
+      font-size: 32px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      color: var(--text);
+    }
+
+    /* Status Pill */
+    .status-pill {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    /* Action Button */
+    .action-btn {
+      width: 100%;
+      padding: 16px;
       border-radius: 18px;
+      font-size: 15px;
+      font-weight: 700;
       border: none;
-      background: linear-gradient(180deg, #0A84FF 0%, #0066D6 100%);
-      color: #FFFFFF;
-      font-size: 17px;
-      font-weight: 600;
-      cursor: pointer;
+      outline: none;
+      cursor: not-allowed;
+      color: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.06);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      box-shadow: 0 10px 25px rgba(10, 132, 255, 0.45);
-      transition: all 0.2s ease;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .btn:active { transform: scale(0.97); }
-    .footer {
-      margin-top: 20px;
-      font-size: 12px;
-      color: rgba(235, 235, 245, 0.4);
+
+    .action-btn.ready {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #ffffff;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 10px 25px -5px var(--accent-glow);
+      animation: floatPulse 2.5s infinite;
+    }
+
+    .action-btn.ready:active {
+      transform: scale(0.98);
+    }
+
+    /* Optional Ad Slot Box */
+    .ad-placeholder {
+      margin: 18px 0;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px dashed rgba(255, 255, 255, 0.08);
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+    }
+
+    .footer-note {
+      margin-top: 24px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    @keyframes floatPulse {
+      0%, 100% { transform: translateY(0); box-shadow: 0 10px 25px -5px var(--accent-glow); }
+      50% { transform: translateY(-2px); box-shadow: 0 15px 30px -2px rgba(59, 130, 246, 0.6); }
     }
   </style>
 </head>
 <body>
 
-  <div class="ambient-bg">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-  </div>
-
-  <main class="card">
-    <div class="badge-icon">
-      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+  <div class="portal-card">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Prime Cloud Gateway
     </div>
 
     <h1>File Verification</h1>
-    <p>Complete the sponsored security pass to decrypt your file and unlock Telegram access.</p>
+    <p class="subtitle">Complete human security check to unlock high-speed cloud file delivery.</p>
 
-    <div class="file-box">
-      <span style="color: rgba(235, 235, 245, 0.5);">Payload:</span>
-      <span id="fileCodeDisplay" class="file-id-text">Detecting...</span>
+    <!-- Circular 10-Second Timer -->
+    <div class="timer-circle-wrap">
+      <svg viewBox="0 0 100 100">
+        <circle class="circle-bg" cx="50" cy="50" r="42"></circle>
+        <circle class="circle-progress" id="circleProgress" cx="50" cy="50" r="42"></circle>
+      </svg>
+      <div class="timer-number" id="countdown">10</div>
     </div>
 
-    <button id="verifyBtn" class="btn">
-      <span>Continue to Unlock ▶</span>
-    </button>
+    <div class="status-pill" id="statusText">Verifying cloud token... Please wait.</div>
 
-    <div class="footer">Encrypted Verification • Shrtfly Verified</div>
-  </main>
+    <!-- Monetag / Banner Ad Slot (Put Script Inside Here) -->
+    <div class="ad-placeholder" id="portal-ad-top">
+      <span>Advertisement Space</span>
+    </div>
+
+    <!-- Direct User Action Button (NO AUTO REDIRECT) -->
+    <a href="javascript:void(0)" id="gatewayBtn" class="action-btn" target="_blank" rel="noopener noreferrer">
+      <span id="btnIcon">⏳</span>
+      <span id="btnText">Please wait 10s...</span>
+    </a>
+
+    <div class="footer-note">
+      🔒 256-Bit SSL Protected • Powered by MahaStudy AI
+    </div>
+  </div>
 
   <script>
+    // ==========================================
+    // CONFIGURATION
+    // ==========================================
     const BOT_USERNAME = "FILE_STOREB_BOT";
     const SHRTFLY_API_KEY = "f9daa0e2c84d39d3686c0d08691e4a62";
+    let TOTAL_SECONDS = 10;
+    let remainingTime = TOTAL_SECONDS;
 
-    // Multi-way parser: Extracts code from query, regex href, or pathname
+    // 1. Resolve Target Code from Query / Pathname / Hash
     function getFileCode() {
-      const params = new URLSearchParams(window.location.search);
-      let c = params.get("file") || params.get("f");
-      if (c && c.trim()) return c.trim();
-
-      const fullUrl = window.location.href;
-      const match = fullUrl.match(/[?&#/](file[a-z0-9]+|f_[a-z0-9]+)/i);
-      if (match && match[1]) return match[1].trim();
-
-      const parts = window.location.pathname.split("/").filter(Boolean);
-      for (let p of parts) {
-        if (p.startsWith("file") || p.startsWith("f_")) return p.trim();
+      const urlParams = new URLSearchParams(window.location.search);
+      let code = urlParams.get('file') || urlParams.get('code') || urlParams.get('id');
+      
+      if (!code && window.location.hash) {
+        code = window.location.hash.replace('#', '').trim();
       }
 
-      return null;
+      if (!code) {
+        const pathSegments = window.location.pathname.split('/').filter(p => p.length > 0);
+        if (pathSegments.length > 0 && pathSegments[0] !== 'index.html') {
+          code = pathSegments[0];
+        }
+      }
+      return code || "session";
     }
 
-    const code = getFileCode();
-    const display = document.getElementById("fileCodeDisplay");
-    const btn = document.getElementById("verifyBtn");
+    const fileCode = getFileCode();
+    
+    // The link user is redirected to upon completing Shrtfly
+    const telegramReturnLink = `https://t.me/${BOT_USERNAME}?start=v_${fileCode}`;
+    
+    // Shrtfly Gateway Link
+    const targetShortlink = `https://shrtfly.com/st?api=${SHRTFLY_API_KEY}&url=${encodeURIComponent(telegramReturnLink)}`;
 
-    // Seamless fallback to session pass if query is stripped
-    const activeCode = code ? code : "session";
-    display.textContent = activeCode;
+    // DOM Elements
+    const countdownEl = document.getElementById('countdown');
+    const statusTextEl = document.getElementById('statusText');
+    const gatewayBtn = document.getElementById('gatewayBtn');
+    const btnText = document.getElementById('btnText');
+    const btnIcon = document.getElementById('btnIcon');
+    const circleProgress = document.getElementById('circleProgress');
+    const circumference = 2 * Math.PI * 42; // r=42 approx 263.89
 
-    // Build Shrtfly monetized target
-    const telegramReturn = "https://t.me/" + BOT_USERNAME + "?start=v_" + encodeURIComponent(activeCode);
-    const shrtflyUrl = "https://shrtfly.com/st?api=" + SHRTFLY_API_KEY + "&url=" + encodeURIComponent(telegramReturn);
+    circleProgress.style.strokeDasharray = `${circumference}`;
+    circleProgress.style.strokeDashoffset = `0`;
 
-    btn.onclick = () => {
-      window.location.href = shrtflyUrl;
-    };
+    // 2. Countdown Loop (Strictly 10 Seconds)
+    const timerInterval = setInterval(() => {
+      remainingTime--;
 
-    // Auto-forward after 1.8 seconds
-    setTimeout(() => {
-      window.location.href = shrtflyUrl;
-    }, 1800);
+      if (remainingTime > 0) {
+        countdownEl.innerText = remainingTime;
+        btnText.innerText = `Please wait ${remainingTime}s...`;
+
+        // Update SVG circle stroke
+        const progressOffset = circumference - (remainingTime / TOTAL_SECONDS) * circumference;
+        circleProgress.style.strokeDashoffset = progressOffset;
+      } else {
+        clearInterval(timerInterval);
+        countdownEl.innerText = "✓";
+        countdownEl.style.color = "var(--success)";
+        circleProgress.style.stroke = "var(--success)";
+        circleProgress.style.strokeDashoffset = circumference;
+
+        statusTextEl.innerText = "Link is ready! Tap below to verify.";
+        statusTextEl.style.color = "#34d399";
+
+        // Unlock Button for User Click
+        gatewayBtn.classList.add('ready');
+        gatewayBtn.href = targetShortlink;
+        btnIcon.innerText = "🚀";
+        btnText.innerText = "Continue to Verification ➔";
+      }
+    }, 1000);
   </script>
 </body>
 </html>
