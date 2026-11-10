@@ -3,104 +3,229 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prime Verification Gateway</title>
+  <title>PRIME GATEWAY // CYBER SECURITY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --neon-cyan: #00f3ff;
+      --neon-pink: #ff0055;
+      --neon-purple: #bc13fe;
+      --cyber-black: #060814;
+      --card-bg: rgba(10, 14, 29, 0.88);
+      --border-cyan: rgba(0, 243, 255, 0.4);
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
+
     body {
-      background: radial-gradient(circle at top, #111827, #030712);
-      color: #f3f4f6;
+      background-color: var(--cyber-black);
+      background-image: 
+        radial-gradient(ellipse at 50% -20%, rgba(188, 19, 254, 0.35), transparent 60%),
+        radial-gradient(ellipse at 80% 120%, rgba(0, 243, 255, 0.25), transparent 50%),
+        linear-gradient(rgba(0, 243, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.04) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 35px 35px, 35px 35px;
+      color: #e2e8f0;
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
       padding: 20px;
+      position: relative;
+      overflow-x: hidden;
     }
-    .card {
-      background: #1f2937;
-      border: 1px solid #374151;
-      border-radius: 16px;
-      padding: 30px 24px;
+
+    /* Ambient CRT Scanline Overlay */
+    body::before {
+      content: " ";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Gaming Cyber Card */
+    .cyber-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-cyan);
+      box-shadow: 0 0 35px rgba(0, 243, 255, 0.15), inset 0 0 20px rgba(188, 19, 254, 0.1);
+      border-radius: 12px;
+      padding: 34px 26px;
       max-width: 440px;
       width: 100%;
       text-align: center;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      position: relative;
+      backdrop-filter: blur(12px);
+      z-index: 2;
+      clip-path: polygon(
+        0 14px, 
+        14px 0, 
+        calc(100% - 14px) 0, 
+        100% 14px, 
+        100% calc(100% - 14px), 
+        calc(100% - 14px) 100%, 
+        14px 100%, 
+        0 calc(100% - 14px)
+      );
     }
-    .badge {
-      display: inline-block;
-      padding: 6px 14px;
-      background: rgba(59, 130, 246, 0.15);
-      border: 1px solid #3b82f6;
-      color: #60a5fa;
-      border-radius: 9999px;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 18px;
-    }
-    h1 {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: #ffffff;
-    }
-    p {
-      color: #9ca3af;
-      font-size: 14px;
-      line-height: 1.5;
-      margin-bottom: 24px;
-    }
-    .file-box {
-      background: #111827;
-      border: 1px dashed #4b5563;
-      border-radius: 10px;
-      padding: 12px;
-      font-family: monospace;
-      font-size: 14px;
-      color: #38bdf8;
-      margin-bottom: 24px;
-      word-break: break-all;
-    }
-    .btn {
-      display: block;
+
+    /* Tech Corner Accents */
+    .cyber-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      padding: 14px 20px;
-      background: #2563eb;
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      border-radius: 10px;
-      border: none;
+      height: 100%;
+      border-top: 2px solid var(--neon-cyan);
+      border-bottom: 2px solid var(--neon-pink);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      background: rgba(0, 243, 255, 0.1);
+      border: 1px solid var(--neon-cyan);
+      color: var(--neon-cyan);
+      font-family: 'Orbitron', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--neon-cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--neon-cyan);
+      animation: pulse 1.2s infinite alternate;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(0, 243, 255, 0.6);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #94a3b8;
+      font-size: 15px;
+      letter-spacing: 0.5px;
+      margin-bottom: 22px;
+      line-height: 1.4;
+    }
+
+    /* Holographic File Panel */
+    .holo-panel {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(0, 243, 255, 0.3);
+      border-left: 3px solid var(--neon-pink);
+      padding: 14px 12px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .holo-header {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Orbitron', monospace;
+      font-size: 10px;
+      color: var(--neon-pink);
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+
+    .holo-content {
+      font-family: 'Orbitron', monospace;
+      font-size: 13px;
+      color: var(--neon-cyan);
+      letter-spacing: 1px;
+      word-break: break-all;
+      text-shadow: 0 0 8px rgba(0, 243, 255, 0.4);
+    }
+
+    /* Cyber Button with Neon Drag */
+    .cyber-btn {
+      width: 100%;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, rgba(255, 0, 85, 0.8), rgba(188, 19, 254, 0.9));
+      color: #ffffff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: 1px solid var(--neon-pink);
       cursor: pointer;
-      font-size: 16px;
-      transition: background 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
-    .btn:hover {
-      background: #1d4ed8;
+
+    .cyber-btn:hover:not(:disabled) {
+      box-shadow: 0 0 30px rgba(255, 0, 85, 0.8), 0 0 15px var(--neon-cyan);
+      transform: translateY(-2px);
     }
-    .btn:disabled {
-      background: #4b5563;
+
+    .cyber-btn:disabled {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid #475569;
+      color: #64748b;
+      box-shadow: none;
       cursor: not-allowed;
     }
-    .footer {
-      margin-top: 20px;
-      font-size: 12px;
-      color: #6b7280;
-    }
+
     .spinner {
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-top-color: var(--neon-cyan);
       border-radius: 50%;
-      border-top-color: #ffffff;
       animation: spin 0.8s linear infinite;
-      vertical-align: middle;
-      margin-right: 8px;
     }
+
+    .footer {
+      margin-top: 22px;
+      font-family: 'Orbitron', monospace;
+      font-size: 10px;
+      color: #64748b;
+      letter-spacing: 1px;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
@@ -108,31 +233,37 @@
 </head>
 <body>
 
-  <div class="card">
-    <div class="badge">🛡️ SECURE VERIFICATION</div>
-    <h1>Verify to Unlock File</h1>
-    <p>Complete the quick sponsored security check to decrypt your file and unlock 24-hour instant Telegram access.</p>
+  <div class="cyber-card">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      <span>SYSTEM // SECURE CHECK</span>
+    </div>
 
-    <div class="file-box" id="fileCodeDisplay">Checking file parameters...</div>
+    <h1>ACCESS GATEWAY</h1>
+    <p class="subtitle">Complete sponsored encryption bypass to decrypt your cloud payload.</p>
 
-    <button id="verifyBtn" class="btn" disabled>
+    <div class="holo-panel">
+      <div class="holo-header">
+        <span>SECURITY ENCLAVE</span>
+        <span>STATUS: LOCKED</span>
+      </div>
+      <div class="holo-content" id="fileCodeDisplay">INITIALIZING PROTOCOL...</div>
+    </div>
+
+    <button id="verifyBtn" class="cyber-btn" disabled>
       <span class="spinner" id="btnSpinner"></span>
-      <span id="btnText">Preparing Gateway...</span>
+      <span id="btnText">BOOTING CORE...</span>
     </button>
 
     <div class="footer">
-      Protected by Prime Security Gateway • Shrfly Verified
+      PRIME PROTOCOL // ENCRYPTED VIA SHRTFLY
     </div>
   </div>
 
   <script>
-    // ==============================================================
-    // CONFIGURATION
-    // ==============================================================
-    const SHRFLY_API_KEY = "YOUR_SHRFLY_API_KEY_HERE"; // <-- PUT YOUR SHRFLY API KEY HERE
     const BOT_USERNAME = "FILE_STOREB_BOT";
 
-    // 1. Extract File Parameter from URL (?file=f_xxxxxx)
+    // Read ?file=f_xxxx from parameters
     const urlParams = new URLSearchParams(window.location.search);
     const fileCode = urlParams.get("file");
 
@@ -142,47 +273,46 @@
     const btnText = document.getElementById("btnText");
 
     if (!fileCode) {
-      fileDisplay.textContent = "❌ Invalid or Missing File Code";
-      fileDisplay.style.color = "#ef4444";
+      fileDisplay.textContent = "ERR: PAYLOAD_NOT_FOUND";
+      fileDisplay.style.color = "#ff0055";
       btnSpinner.style.display = "none";
-      btnText.textContent = "Cannot Proceed";
+      btnText.textContent = "TERMINATED";
     } else {
-      fileDisplay.textContent = "FILE ID: " + fileCode;
-      initGateway();
+      fileDisplay.textContent = "TARGET: " + fileCode;
+      bootGateway(fileCode);
     }
 
-    // 2. Build Shrfly Gateway
-    async function initGateway() {
-      const destination = `https://t.me/${BOT_USERNAME}?start=v_${fileCode}`;
-      
-      // Shrfly Quick Link API Endpoint
-      const shrflyApi = `https://shrfly.com/api?api=${encodeURIComponent(SHRFLY_API_KEY)}&url=${encodeURIComponent(destination)}`;
-
-      let finalRedirectUrl = destination;
+    async function bootGateway(code) {
+      const telegramTarget = `https://t.me/${BOT_USERNAME}?start=v_${code}`;
+      let finalTarget = telegramTarget;
 
       try {
-        const response = await fetch(shrflyApi);
-        const data = await response.json();
-
-        if (data && (data.status === "success" || data.shortenedUrl)) {
-          finalRedirectUrl = data.shortenedUrl;
-        } else {
-          // If direct API JSON returns an alternative structure
-          finalRedirectUrl = `https://shrfly.com/st?api=${encodeURIComponent(SHRFLY_API_KEY)}&url=${encodeURIComponent(destination)}`;
+        const res = await fetch(`/redirect?file=${encodeURIComponent(code)}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.redirectUrl) {
+            finalTarget = data.redirectUrl;
+          }
         }
       } catch (err) {
-        // Fallback if browser blocks client-side API requests: Direct Shrfly link formulation
-        finalRedirectUrl = `https://shrfly.com/st?api=${encodeURIComponent(SHRFLY_API_KEY)}&url=${encodeURIComponent(destination)}`;
+        console.warn("Worker link bypassed, applying manual fallback:", err);
       }
 
-      // Ready State: Enable Button
+      // Ready Interface
       btnSpinner.style.display = "none";
-      btnText.textContent = "🚀 Click Here to Verify & Unlock";
+      btnText.textContent = "INITIALIZE DOWNLOAD ▶";
       verifyBtn.disabled = false;
 
       verifyBtn.addEventListener("click", () => {
-        window.location.href = finalRedirectUrl;
+        window.location.href = finalTarget;
       });
+
+      // Automated auto-jump after 2.8 seconds
+      setTimeout(() => {
+        if (window.location.search.includes("file=")) {
+          window.location.href = finalTarget;
+        }
+      }, 2800);
     }
   </script>
 
