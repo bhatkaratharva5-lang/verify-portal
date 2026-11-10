@@ -2,19 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PRIME GATEWAY // CYBER SECURITY</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Verification Portal</title>
   <style>
     :root {
-      --neon-cyan: #00f3ff;
-      --neon-pink: #ff0055;
-      --neon-purple: #bc13fe;
-      --cyber-black: #060814;
-      --card-bg: rgba(10, 14, 29, 0.92);
-      --border-cyan: rgba(0, 243, 255, 0.45);
+      --ios-system-blue: #007AFF;
+      --ios-system-indigo: #5856D6;
+      --ios-glass-surface: rgba(255, 255, 255, 0.12);
+      --ios-glass-border: rgba(255, 255, 255, 0.22);
+      --ios-label-primary: #FFFFFF;
+      --ios-label-secondary: rgba(235, 235, 245, 0.65);
+      --ios-label-tertiary: rgba(235, 235, 245, 0.40);
     }
 
     * {
@@ -22,217 +20,251 @@
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     body {
-      background-color: var(--cyber-black);
-      background-image: 
-        radial-gradient(ellipse at 50% -20%, rgba(188, 19, 254, 0.35), transparent 60%),
-        radial-gradient(ellipse at 80% 120%, rgba(0, 243, 255, 0.25), transparent 50%),
-        linear-gradient(rgba(0, 243, 255, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 243, 255, 0.04) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 35px 35px, 35px 35px;
-      color: #e2e8f0;
-      font-family: 'Rajdhani', sans-serif;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
-      position: relative;
+      padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      background: #0B0E14;
       overflow-x: hidden;
-    }
-
-    body::before {
-      content: " ";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-      background-size: 100% 4px;
-      pointer-events: none;
-      z-index: 10;
-    }
-
-    .cyber-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-cyan);
-      box-shadow: 0 0 35px rgba(0, 243, 255, 0.15), inset 0 0 20px rgba(188, 19, 254, 0.1);
-      border-radius: 12px;
-      padding: 34px 26px;
-      max-width: 440px;
-      width: 100%;
-      text-align: center;
       position: relative;
-      backdrop-filter: blur(12px);
-      z-index: 2;
-      clip-path: polygon(
-        0 14px, 
-        14px 0, 
-        calc(100% - 14px) 0, 
-        100% 14px, 
-        100% calc(100% - 14px), 
-        calc(100% - 14px) 100%, 
-        14px 100%, 
-        0 calc(100% - 14px)
-      );
     }
 
-    .cyber-card::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-top: 2px solid var(--neon-cyan);
-      border-bottom: 2px solid var(--neon-pink);
+    /* Animated Liquid Blobs Background */
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
       pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
     }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 14px;
-      background: rgba(0, 243, 255, 0.1);
-      border: 1px solid var(--neon-cyan);
-      color: var(--neon-cyan);
-      font-family: 'Orbitron', monospace;
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-      box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
-    }
-
-    .badge-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--neon-cyan);
+    .blob {
+      position: absolute;
       border-radius: 50%;
-      box-shadow: 0 0 8px var(--neon-cyan);
-      animation: pulse 1.2s infinite alternate;
+      filter: blur(80px);
+      opacity: 0.6;
+      will-change: transform;
+      animation: floatLiquid 12s infinite ease-in-out alternate;
+    }
+
+    .blob-1 {
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, #007AFF 0%, #00C6FF 100%);
+      top: -80px;
+      left: -60px;
+    }
+
+    .blob-2 {
+      width: 360px;
+      height: 360px;
+      background: radial-gradient(circle, #7928CA 0%, #FF0080 100%);
+      bottom: -100px;
+      right: -80px;
+      animation-duration: 16s;
+      animation-delay: -4s;
+    }
+
+    .blob-3 {
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, #5856D6 0%, #30B0C7 100%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.35;
+      animation-duration: 10s;
+      animation-delay: -2s;
+    }
+
+    @keyframes floatLiquid {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -40px) scale(1.08); }
+      100% { transform: translate(-25px, 25px) scale(0.95); }
+    }
+
+    /* iOS Frosted Glass Container */
+    .liquid-card {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 410px;
+      background: var(--ios-glass-surface);
+      backdrop-filter: blur(40px) saturate(190%);
+      -webkit-backdrop-filter: blur(40px) saturate(190%);
+      border-radius: 36px;
+      border: 1px solid var(--ios-glass-border);
+      padding: 38px 28px 30px;
+      text-align: center;
+      box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.45),
+        inset 0 1px 1px rgba(255, 255, 255, 0.35);
+      animation: cardAppear 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes cardAppear {
+      0% { opacity: 0; transform: translateY(20px) scale(0.97); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Glass Pill Icon */
+    .shield-badge {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 20px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(0, 122, 255, 0.25);
+    }
+
+    .shield-icon {
+      width: 28px;
+      height: 28px;
+      stroke: #FFFFFF;
+      stroke-width: 2.2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 900;
-      font-size: 22px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: #ffffff;
-      text-shadow: 0 0 12px rgba(0, 243, 255, 0.6);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--ios-label-primary);
+      letter-spacing: -0.5px;
       margin-bottom: 8px;
     }
 
-    .subtitle {
-      color: #94a3b8;
+    p.subtitle {
       font-size: 15px;
-      letter-spacing: 0.5px;
-      margin-bottom: 22px;
-      line-height: 1.4;
+      line-height: 1.45;
+      color: var(--ios-label-secondary);
+      margin-bottom: 24px;
+      font-weight: 400;
     }
 
-    .holo-panel {
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(0, 243, 255, 0.3);
-      border-left: 3px solid var(--neon-pink);
-      padding: 14px 12px;
-      margin-bottom: 24px;
+    /* Specular Glass Panel for File Details */
+    .file-pill {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      padding: 14px 16px;
+      margin-bottom: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
       text-align: left;
     }
 
-    .holo-header {
+    .pill-header {
       display: flex;
       justify-content: space-between;
-      font-family: 'Orbitron', monospace;
-      font-size: 10px;
-      color: var(--neon-pink);
-      letter-spacing: 1.5px;
-      margin-bottom: 6px;
-    }
-
-    .holo-content {
-      font-family: 'Orbitron', monospace;
-      font-size: 13px;
-      color: var(--neon-cyan);
-      letter-spacing: 1px;
-      word-break: break-all;
-      text-shadow: 0 0 8px rgba(0, 243, 255, 0.4);
-    }
-
-    .manual-input {
-      width: 100%;
-      background: #090d1a;
-      border: 1px solid var(--neon-cyan);
-      color: #fff;
-      font-family: 'Orbitron', monospace;
-      font-size: 13px;
-      padding: 12px;
-      margin-bottom: 16px;
-      outline: none;
-      border-radius: 6px;
-      display: none;
-    }
-
-    .cyber-btn {
-      width: 100%;
-      padding: 16px 20px;
-      background: linear-gradient(135deg, rgba(255, 0, 85, 0.85), rgba(188, 19, 254, 0.95));
-      color: #ffffff;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 2px;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
-      border: 1px solid var(--neon-pink);
+      color: var(--ios-label-tertiary);
+    }
+
+    .status-text {
+      color: #34C759;
+      font-weight: 700;
+    }
+
+    .file-code-val {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 14px;
+      font-weight: 600;
+      color: #70C0FF;
+      word-break: break-all;
+    }
+
+    /* iOS Native Primary Action Button */
+    .liquid-btn {
+      width: 100%;
+      height: 54px;
+      border-radius: 18px;
+      border: none;
+      background: linear-gradient(180deg, #0A84FF 0%, #0066D6 100%);
+      color: #FFFFFF;
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
-      transition: all 0.25s ease;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
+      box-shadow: 
+        0 10px 25px rgba(10, 132, 255, 0.45),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .cyber-btn:hover:not(:disabled) {
-      box-shadow: 0 0 30px rgba(255, 0, 85, 0.8), 0 0 15px var(--neon-cyan);
-      transform: translateY(-2px);
+    .liquid-btn:hover:not(:disabled) {
+      transform: scale(1.02);
+      box-shadow: 0 14px 30px rgba(10, 132, 255, 0.55);
     }
 
-    .cyber-btn:disabled {
-      background: rgba(30, 41, 59, 0.7);
-      border: 1px solid #475569;
-      color: #64748b;
+    .liquid-btn:active:not(:disabled) {
+      transform: scale(0.97);
+      background: #0056B3;
+    }
+
+    .liquid-btn:disabled {
+      background: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.35);
       box-shadow: none;
       cursor: not-allowed;
     }
 
-    .spinner {
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      border-top-color: var(--neon-cyan);
+    /* Fallback Manual Input */
+    .ios-input {
+      width: 100%;
+      height: 48px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 16px;
+      color: #FFFFFF;
+      padding: 0 16px;
+      font-size: 15px;
+      margin-bottom: 16px;
+      outline: none;
+      display: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .ios-input:focus {
+      border-color: #0A84FF;
+    }
+
+    /* iOS Native Spinner */
+    .ios-spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      border-top-color: #FFFFFF;
+      animation: spin 0.75s linear infinite;
     }
 
-    .footer {
-      margin-top: 22px;
-      font-family: 'Orbitron', monospace;
-      font-size: 10px;
-      color: #64748b;
-      letter-spacing: 1px;
-    }
-
-    @keyframes pulse {
-      0% { opacity: 0.4; }
-      100% { opacity: 1; }
+    .footer-note {
+      margin-top: 20px;
+      font-size: 12px;
+      color: var(--ios-label-tertiary);
+      letter-spacing: -0.1px;
     }
 
     @keyframes spin {
@@ -242,130 +274,137 @@
 </head>
 <body>
 
-  <div class="cyber-card">
-    <div class="badge">
-      <span class="badge-dot"></span>
-      <span>SYSTEM // SECURE CHECK</span>
+  <!-- Ambient Fluid Lighting -->
+  <div class="ambient-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <main class="liquid-card">
+    <div class="shield-badge">
+      <svg class="shield-icon" viewBox="0 0 24 24">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
     </div>
 
-    <h1>ACCESS GATEWAY</h1>
-    <p class="subtitle">Complete sponsored encryption bypass to decrypt your cloud payload.</p>
+    <h1>File Verification</h1>
+    <p class="subtitle">Complete the fast security check to unlock your file directly in Telegram.</p>
 
-    <div class="holo-panel">
-      <div class="holo-header">
-        <span>SECURITY ENCLAVE</span>
-        <span id="statusBadge">STATUS: CHECKING</span>
+    <div class="file-pill">
+      <div class="pill-header">
+        <span>Cloud Payload</span>
+        <span id="statusIndicator" class="status-text">Checking...</span>
       </div>
-      <div class="holo-content" id="fileCodeDisplay">LOCATING PAYLOAD...</div>
+      <div id="fileDisplay" class="file-code-val">Resolving Identifier...</div>
     </div>
 
-    <input type="text" id="manualCode" class="manual-input" placeholder="ENTER FILE CODE (e.g. file9x8k7l)">
+    <input type="text" id="manualInput" class="ios-input" placeholder="Paste file code (e.g. file9x8k7l)">
 
-    <button id="verifyBtn" class="cyber-btn" disabled>
-      <span class="spinner" id="btnSpinner"></span>
-      <span id="btnText">BOOTING CORE...</span>
+    <button id="actionBtn" class="liquid-btn" disabled>
+      <span id="btnSpinner" class="ios-spinner"></span>
+      <span id="btnLabel">Preparing Link...</span>
     </button>
 
-    <div class="footer">
-      PRIME PROTOCOL // ENCRYPTED VIA SHRTFLY
-    </div>
-  </div>
+    <p class="footer-note">Encrypted End-to-End • Shrtfly Verified</p>
+  </main>
 
   <script>
     const BOT_USERNAME = "FILE_STOREB_BOT";
 
-    // Multi-source extractor: checks search query, hash, pathname, and raw string
-    function extractCode() {
-      // 1. Standard URLSearchParams (?file=... or ?f=...)
-      const urlParams = new URLSearchParams(window.location.search);
-      let code = urlParams.get("file") || urlParams.get("f");
-      if (code) return code.trim();
+    // Multi-way parser: Extracts code from queries, hashes, pathnames, and raw strings
+    function resolveFileCode() {
+      // 1. Standard search parameters (?file=... or ?f=...)
+      const params = new URLSearchParams(window.location.search);
+      let found = params.get("file") || params.get("f");
+      if (found) return found.trim();
 
-      // 2. Raw query string regex check (in case searchParams failed decoding)
+      // 2. Raw query string regex match
       const rawSearch = window.location.search;
       if (rawSearch) {
         const m = rawSearch.match(/(?:file|f)=([a-zA-Z0-9_-]+)/i);
         if (m && m[1]) return m[1].trim();
       }
 
-      // 3. Hash routing check (#file=... or #f_...)
+      // 3. Hash fragment (#file=... or #f_...)
       if (window.location.hash) {
         const hashMatch = window.location.hash.match(/(?:file|f)=([a-zA-Z0-9_-]+)/i);
         if (hashMatch && hashMatch[1]) return hashMatch[1].trim();
       }
 
-      // 4. Pathname check (/filexxxx or /f_xxxx)
-      const pathParts = window.location.pathname.split("/").filter(Boolean);
-      for (let p of pathParts) {
-        if (p.startsWith("file") || p.startsWith("f_")) {
-          return p.trim();
+      // 4. Clean Pathname (/filexxxx or /f_xxxx)
+      const pathSegments = window.location.pathname.split("/").filter(Boolean);
+      for (const seg of pathSegments) {
+        if (seg.startsWith("file") || seg.startsWith("f_")) {
+          return seg.trim();
         }
       }
 
       return null;
     }
 
-    const fileCode = extractCode();
-    const fileDisplay = document.getElementById("fileCodeDisplay");
-    const statusBadge = document.getElementById("statusBadge");
-    const verifyBtn = document.getElementById("verifyBtn");
+    const code = resolveFileCode();
+    const statusIndicator = document.getElementById("statusIndicator");
+    const fileDisplay = document.getElementById("fileDisplay");
+    const actionBtn = document.getElementById("actionBtn");
     const btnSpinner = document.getElementById("btnSpinner");
-    const btnText = document.getElementById("btnText");
-    const manualInput = document.getElementById("manualCode");
+    const btnLabel = document.getElementById("btnLabel");
+    const manualInput = document.getElementById("manualInput");
 
-    if (!fileCode) {
-      statusBadge.textContent = "STATUS: NO CODE";
-      statusBadge.style.color = "#ff0055";
-      fileDisplay.textContent = "PLEASE ENTER FILE CODE BELOW";
-      fileDisplay.style.color = "#ff0055";
+    if (!code) {
+      statusIndicator.textContent = "Action Required";
+      statusIndicator.style.color = "#FF9F0A";
+      fileDisplay.textContent = "No file code found";
+      fileDisplay.style.color = "rgba(235, 235, 245, 0.6)";
+      
       btnSpinner.style.display = "none";
-      btnText.textContent = "VERIFY CODE";
+      btnLabel.textContent = "Enter Code";
       manualInput.style.display = "block";
-      verifyBtn.disabled = false;
+      actionBtn.disabled = false;
 
-      verifyBtn.addEventListener("click", () => {
-        const entered = manualInput.value.trim();
-        if (entered) {
-          window.location.search = "?file=" + encodeURIComponent(entered);
+      actionBtn.addEventListener("click", () => {
+        const val = manualInput.value.trim();
+        if (val) {
+          window.location.search = "?file=" + encodeURIComponent(val);
         }
       });
     } else {
-      statusBadge.textContent = "STATUS: LOCKED";
-      statusBadge.style.color = "#00f3ff";
-      fileDisplay.textContent = "TARGET: " + fileCode;
-      bootGateway(fileCode);
+      statusIndicator.textContent = "Locked";
+      statusIndicator.style.color = "#0A84FF";
+      fileDisplay.textContent = code;
+      initiateFlow(code);
     }
 
-    async function bootGateway(code) {
-      const telegramTarget = `https://t.me/${BOT_USERNAME}?start=v_${code}`;
-      let finalTarget = telegramTarget;
+    async function initiateFlow(fileId) {
+      const telegramTarget = `https://t.me/${BOT_USERNAME}?start=v_${fileId}`;
+      let destinationUrl = telegramTarget;
 
       try {
-        const res = await fetch(`/redirect?file=${encodeURIComponent(code)}`);
+        const res = await fetch(`/redirect?file=${encodeURIComponent(fileId)}`);
         if (res.ok) {
           const data = await res.json();
           if (data && data.redirectUrl) {
-            finalTarget = data.redirectUrl;
+            destinationUrl = data.redirectUrl;
           }
         }
-      } catch (err) {
-        console.warn("Backend function skipped, direct fallback applied:", err);
+      } catch (e) {
+        console.warn("Direct worker lookup unavailable, using fallback route:", e);
       }
 
       btnSpinner.style.display = "none";
-      btnText.textContent = "INITIALIZE DOWNLOAD ▶";
-      verifyBtn.disabled = false;
+      btnLabel.textContent = "Continue to Unlock";
+      actionBtn.disabled = false;
 
-      verifyBtn.addEventListener("click", () => {
-        window.location.href = finalTarget;
+      actionBtn.addEventListener("click", () => {
+        window.location.href = destinationUrl;
       });
 
-      // Smooth auto-redirect after 2.8 seconds
+      // Smooth auto-redirect after 2.5 seconds
       setTimeout(() => {
-        if (fileCode) {
-          window.location.href = finalTarget;
+        if (code) {
+          window.location.href = destinationUrl;
         }
-      }, 2800);
+      }, 2500);
     }
   </script>
 
