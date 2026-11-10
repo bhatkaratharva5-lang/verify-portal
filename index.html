@@ -43,7 +43,6 @@
       overflow-x: hidden;
     }
 
-    /* Ambient CRT Scanline Overlay */
     body::before {
       content: " ";
       position: fixed;
@@ -57,7 +56,6 @@
       z-index: 10;
     }
 
-    /* Gaming Cyber Card */
     .cyber-card {
       background: var(--card-bg);
       border: 1px solid var(--border-cyan);
@@ -82,7 +80,6 @@
       );
     }
 
-    /* Tech Corner Accents */
     .cyber-card::after {
       content: "";
       position: absolute;
@@ -139,7 +136,6 @@
       line-height: 1.4;
     }
 
-    /* Holographic File Panel */
     .holo-panel {
       background: rgba(0, 0, 0, 0.6);
       border: 1px solid rgba(0, 243, 255, 0.3);
@@ -168,7 +164,20 @@
       text-shadow: 0 0 8px rgba(0, 243, 255, 0.4);
     }
 
-    /* Cyber Button with Neon Drag */
+    .manual-input {
+      width: 100%;
+      background: #090d1a;
+      border: 1px solid var(--neon-cyan);
+      color: #fff;
+      font-family: 'Orbitron', monospace;
+      font-size: 13px;
+      padding: 10px;
+      margin-bottom: 15px;
+      outline: none;
+      border-radius: 4px;
+      display: none;
+    }
+
     .cyber-btn {
       width: 100%;
       padding: 16px 20px;
@@ -245,10 +254,12 @@
     <div class="holo-panel">
       <div class="holo-header">
         <span>SECURITY ENCLAVE</span>
-        <span>STATUS: LOCKED</span>
+        <span id="statusBadge">STATUS: CHECKING</span>
       </div>
-      <div class="holo-content" id="fileCodeDisplay">INITIALIZING PROTOCOL...</div>
+      <div class="holo-content" id="fileCodeDisplay">LOCATING PAYLOAD...</div>
     </div>
+
+    <input type="text" id="manualCode" class="manual-input" placeholder="ENTER FILE CODE (e.g. f_abc123)">
 
     <button id="verifyBtn" class="cyber-btn" disabled>
       <span class="spinner" id="btnSpinner"></span>
@@ -263,21 +274,54 @@
   <script>
     const BOT_USERNAME = "FILE_STOREB_BOT";
 
-    // Read ?file=f_xxxx from parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const fileCode = urlParams.get("file");
+    // Multi-way parser for ?file=, ?f=, or raw params
+    function extractCode() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let code = urlParams.get("file") || urlParams.get("f");
 
+      // Handle hashtag routing (e.g., #file=f_xxxx)
+      if (!code && window.location.hash) {
+        const hashMatch = window.location.hash.match(/(?:file|f)=([a-zA-Z0-9_-]+)/);
+        if (hashMatch) code = hashMatch[1];
+      }
+
+      // Check if URL ends with /f_xxxx
+      if (!code) {
+        const pathParts = window.location.pathname.split("/").filter(Boolean);
+        if (pathParts.length > 0 && pathParts[pathParts.length - 1].startsWith("f_")) {
+          code = pathParts[pathParts.length - 1];
+        }
+      }
+
+      return code;
+    }
+
+    const fileCode = extractCode();
     const fileDisplay = document.getElementById("fileCodeDisplay");
+    const statusBadge = document.getElementById("statusBadge");
     const verifyBtn = document.getElementById("verifyBtn");
     const btnSpinner = document.getElementById("btnSpinner");
     const btnText = document.getElementById("btnText");
+    const manualInput = document.getElementById("manualCode");
 
     if (!fileCode) {
-      fileDisplay.textContent = "ERR: PAYLOAD_NOT_FOUND";
+      statusBadge.textContent = "STATUS: NO CODE";
+      statusBadge.style.color = "#ff0055";
+      fileDisplay.textContent = "PLEASE ENTER FILE CODE BELOW";
       fileDisplay.style.color = "#ff0055";
       btnSpinner.style.display = "none";
-      btnText.textContent = "TERMINATED";
+      btnText.textContent = "VERIFY CODE";
+      manualInput.style.display = "block";
+      verifyBtn.disabled = false;
+
+      verifyBtn.addEventListener("click", () => {
+        const entered = manualInput.value.trim();
+        if (entered) {
+          window.location.search = "?file=" + encodeURIComponent(entered);
+        }
+      });
     } else {
+      statusBadge.textContent = "STATUS: LOCKED";
       fileDisplay.textContent = "TARGET: " + fileCode;
       bootGateway(fileCode);
     }
@@ -295,10 +339,9 @@
           }
         }
       } catch (err) {
-        console.warn("Worker link bypassed, applying manual fallback:", err);
+        console.warn("Using fallback route:", err);
       }
 
-      // Ready Interface
       btnSpinner.style.display = "none";
       btnText.textContent = "INITIALIZE DOWNLOAD ▶";
       verifyBtn.disabled = false;
@@ -307,12 +350,12 @@
         window.location.href = finalTarget;
       });
 
-      // Automated auto-jump after 2.8 seconds
+      // Smooth auto-redirect after 2.5 seconds
       setTimeout(() => {
-        if (window.location.search.includes("file=")) {
+        if (fileCode) {
           window.location.href = finalTarget;
         }
-      }, 2800);
+      }, 2500);
     }
   </script>
 
