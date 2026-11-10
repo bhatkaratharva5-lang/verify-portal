@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Prime Protocol Secure Gateway</title>
+
+  <!-- ================= MONETAG MULTITAG (ZONE 12234663) ================= -->
+  <script>(function(s){s.dataset.zone='12234663',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+  <!-- ==================================================================== -->
+
   <style>
     :root {
       --bg: #07090e;
@@ -138,10 +143,10 @@
     .status-pill {
       font-size: 13px;
       color: var(--text-muted);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
-    /* Action Button */
+    /* Action Button (Manual Click) */
     .action-btn {
       width: 100%;
       padding: 16px;
@@ -173,21 +178,6 @@
 
     .action-btn.ready:active {
       transform: scale(0.98);
-    }
-
-    /* Optional Ad Slot Box */
-    .ad-placeholder {
-      margin: 18px 0;
-      min-height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 12px;
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px dashed rgba(255, 255, 255, 0.08);
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.2);
-      overflow: hidden;
     }
 
     .footer-note {
@@ -233,11 +223,6 @@
 
     <div class="status-pill" id="statusText">Verifying cloud token... Please wait.</div>
 
-    <!-- Monetag / Banner Ad Slot (Put Script Inside Here) -->
-    <div class="ad-placeholder" id="portal-ad-top">
-      <span>Advertisement Space</span>
-    </div>
-
     <!-- Direct User Action Button (NO AUTO REDIRECT) -->
     <a href="javascript:void(0)" id="gatewayBtn" class="action-btn" target="_blank" rel="noopener noreferrer">
       <span id="btnIcon">⏳</span>
@@ -278,10 +263,10 @@
 
     const fileCode = getFileCode();
     
-    // The link user is redirected to upon completing Shrtfly
+    // Telegram return destination once Shrtfly verification is complete
     const telegramReturnLink = `https://t.me/${BOT_USERNAME}?start=v_${fileCode}`;
     
-    // Shrtfly Gateway Link
+    // Target Shrtfly Gateway Link
     const targetShortlink = `https://shrtfly.com/st?api=${SHRTFLY_API_KEY}&url=${encodeURIComponent(telegramReturnLink)}`;
 
     // DOM Elements
@@ -291,12 +276,12 @@
     const btnText = document.getElementById('btnText');
     const btnIcon = document.getElementById('btnIcon');
     const circleProgress = document.getElementById('circleProgress');
-    const circumference = 2 * Math.PI * 42; // r=42 approx 263.89
+    const circumference = 2 * Math.PI * 42; // r=42 (~263.89)
 
     circleProgress.style.strokeDasharray = `${circumference}`;
     circleProgress.style.strokeDashoffset = `0`;
 
-    // 2. Countdown Loop (Strictly 10 Seconds)
+    // 2. Countdown Loop (Strictly 10 Seconds, Manual Click Unlock)
     const timerInterval = setInterval(() => {
       remainingTime--;
 
