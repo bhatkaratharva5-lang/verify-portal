@@ -2,7 +2,7 @@ export async function onRequest(context) {
   const { request, env } = context;
   const url = new URL(request.url);
 
-  // 1. Extract file code from query parameter (?file=f_xxxx)
+  // 1. Extract file code from query parameter (?file=...)
   const fileCode = url.searchParams.get("file");
   if (!fileCode) {
     return new Response(JSON.stringify({ error: "Missing file code parameter" }), {
@@ -14,15 +14,15 @@ export async function onRequest(context) {
     });
   }
 
-  // 2. Fetch the protected key from Cloudflare Environment Variables or fallback
+  // 2. Fetch the protected key from Cloudflare Environment Variables
   const apiKey = env.SHRTFLY_API_KEY;
   const botHandle = "FILE_STOREB_BOT";
 
-  // Destination back to Telegram with the verified code
+  // Target returned to user upon completing verification
   const telegramTarget = "https://t.me/" + botHandle + "?start=v_" + encodeURIComponent(fileCode);
 
   if (!apiKey) {
-    return new Response(JSON.stringify({ error: "API key missing in Cloudflare Environment" }), {
+    return new Response(JSON.stringify({ error: "SHRTFLY_API_KEY is not set in Environment Variables" }), {
       status: 500,
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +34,6 @@ export async function onRequest(context) {
   let finalShortUrl = telegramTarget;
 
   try {
-    // Strictly encode the destination URL so Shrtfly parses it as a valid URL
     const encodedDestination = encodeURIComponent(telegramTarget);
     const apiUrl = "https://shrtfly.com/api?api=" + apiKey.trim() + "&url=" + encodedDestination;
 
@@ -46,19 +45,16 @@ export async function onRequest(context) {
 
     const data = await res.json();
 
-    // Check Shrtfly response structure
     if (data && data.status === "success" && (data.shortenedUrl || data.result)) {
       finalShortUrl = data.shortenedUrl || data.result;
     } else {
-      // If Shrtfly returns error object, route through fallback gateway format
+      // Direct Shrtfly quicklink fallback
       finalShortUrl = "https://shrtfly.com/st?api=" + apiKey.trim() + "&url=" + encodedDestination;
     }
   } catch (err) {
-    // Secondary fallback
     finalShortUrl = "https://shrtfly.com/st?api=" + apiKey.trim() + "&url=" + encodeURIComponent(telegramTarget);
   }
 
-  // Send back clean JSON response
   return new Response(JSON.stringify({ redirectUrl: finalShortUrl }), {
     status: 200,
     headers: {
