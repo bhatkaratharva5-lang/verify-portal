@@ -3,198 +3,186 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Security Verification Gateway | AT-X Engine</title>
+  <title>Prime Verification Gateway</title>
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
     body {
-      background: radial-gradient(circle at 50% 10%, #1e1b4b, #0f172a 70%);
-      color: #f8fafc;
-      min-height: 100vh;
+      background: radial-gradient(circle at top, #111827, #030712);
+      color: #f3f4f6;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1.25rem;
+      min-height: 100vh;
+      padding: 20px;
     }
     .card {
-      background: rgba(30, 41, 59, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(16px);
-      border-radius: 1.25rem;
-      padding: 2rem 1.5rem;
+      background: #1f2937;
+      border: 1px solid #374151;
+      border-radius: 16px;
+      padding: 30px 24px;
       max-width: 440px;
       width: 100%;
       text-align: center;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
     }
     .badge {
       display: inline-block;
-      padding: 0.35rem 0.85rem;
-      background: rgba(99, 102, 241, 0.2);
-      border: 1px solid #6366f1;
+      padding: 6px 14px;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid #3b82f6;
+      color: #60a5fa;
       border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: #818cf8;
-      margin-bottom: 1.25rem;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 18px;
     }
     h1 {
-      font-size: 1.5rem;
-      font-weight: 800;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, #ffffff, #94a3b8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #ffffff;
     }
     p {
-      color: #94a3b8;
-      font-size: 0.9rem;
+      color: #9ca3af;
+      font-size: 14px;
       line-height: 1.5;
-      margin-bottom: 1.5rem;
+      margin-bottom: 24px;
     }
-    .timer-box {
-      background: #0f172a;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 0.75rem;
-      padding: 1.25rem;
-      margin-bottom: 1.5rem;
-    }
-    .countdown {
-      font-size: 2.25rem;
-      font-weight: 800;
+    .file-box {
+      background: #111827;
+      border: 1px dashed #4b5563;
+      border-radius: 10px;
+      padding: 12px;
+      font-family: monospace;
+      font-size: 14px;
       color: #38bdf8;
-      font-variant-numeric: tabular-nums;
-    }
-    .timer-label {
-      font-size: 0.8rem;
-      color: #64748b;
-      margin-top: 0.25rem;
+      margin-bottom: 24px;
+      word-break: break-all;
     }
     .btn {
+      display: block;
       width: 100%;
-      padding: 0.9rem 1.25rem;
-      border-radius: 0.75rem;
-      border: none;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      transition: all 0.2s ease;
+      padding: 14px 20px;
+      background: #2563eb;
+      color: white;
       text-decoration: none;
+      font-weight: 600;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.2s ease;
     }
-    .btn-disabled {
-      background: #334155;
-      color: #94a3b8;
+    .btn:hover {
+      background: #1d4ed8;
+    }
+    .btn:disabled {
+      background: #4b5563;
       cursor: not-allowed;
     }
-    .btn-ready {
-      background: linear-gradient(135deg, #6366f1, #4f46e5);
-      color: #ffffff;
-      box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.5);
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #6b7280;
     }
-    .btn-ready:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 25px -5px rgba(99, 102, 241, 0.7);
-    }
-    .info-footer {
-      margin-top: 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.35rem;
-      font-size: 0.75rem;
-      color: #64748b;
-    }
-    .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #22c55e;
+    .spinner {
       display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #ffffff;
+      animation: spin 0.8s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <div class="badge">Shield Gateway Active</div>
-    <h1>Security Check</h1>
-    <p>Please wait a few seconds while our system verifies your connection and prepares your protected download link.</p>
+    <div class="badge">🛡️ SECURE VERIFICATION</div>
+    <h1>Verify to Unlock File</h1>
+    <p>Complete the quick sponsored security check to decrypt your file and unlock 24-hour instant Telegram access.</p>
 
-    <div class="timer-box">
-      <div id="countdown" class="countdown">5</div>
-      <div class="timer-label">Checking security parameters...</div>
-    </div>
+    <div class="file-box" id="fileCodeDisplay">Checking file parameters...</div>
 
-    <button id="verifyBtn" class="btn btn-disabled" disabled onclick="redirectToLiteShort()">
-      ⏳ Please Wait (5s)
+    <button id="verifyBtn" class="btn" disabled>
+      <span class="spinner" id="btnSpinner"></span>
+      <span id="btnText">Preparing Gateway...</span>
     </button>
 
-    <div class="info-footer">
-      <span class="dot"></span>
-      Protected by Prime Verify Gateway
+    <div class="footer">
+      Protected by Prime Security Gateway • Shrfly Verified
     </div>
   </div>
 
   <script>
-    // 1. Read URL parameter (?file=f_xxxx)
+    // ==============================================================
+    // CONFIGURATION
+    // ==============================================================
+    const SHRFLY_API_KEY = "YOUR_SHRFLY_API_KEY_HERE"; // <-- PUT YOUR SHRFLY API KEY HERE
+    const BOT_USERNAME = "FILE_STOREB_BOT";
+
+    // 1. Extract File Parameter from URL (?file=f_xxxxxx)
     const urlParams = new URLSearchParams(window.location.search);
-    const fileCode = urlParams.get('file');
+    const fileCode = urlParams.get("file");
 
-    let timeLeft = 5;
-    const countdownEl = document.getElementById("countdown");
+    const fileDisplay = document.getElementById("fileCodeDisplay");
     const verifyBtn = document.getElementById("verifyBtn");
+    const btnSpinner = document.getElementById("btnSpinner");
+    const btnText = document.getElementById("btnText");
 
-    // 2. Run countdown timer
-    const timerInterval = setInterval(() => {
-      timeLeft--;
-      if (timeLeft > 0) {
-        countdownEl.innerText = timeLeft;
-        verifyBtn.innerText = `⏳ Please Wait (${timeLeft}s)`;
-      } else {
-        clearInterval(timerInterval);
-        countdownEl.innerText = "0";
-        verifyBtn.disabled = false;
-        verifyBtn.className = "btn btn-ready";
-        verifyBtn.innerText = "🚀 Continue to Secure Link";
-      }
-    }, 1000);
+    if (!fileCode) {
+      fileDisplay.textContent = "❌ Invalid or Missing File Code";
+      fileDisplay.style.color = "#ef4444";
+      btnSpinner.style.display = "none";
+      btnText.textContent = "Cannot Proceed";
+    } else {
+      fileDisplay.textContent = "FILE ID: " + fileCode;
+      initGateway();
+    }
 
-    // 3. Fetch backend redirect generated via Cloudflare Functions
-    async function redirectToLiteShort() {
-      if (!fileCode) {
-        alert("Invalid or missing file code parameter!");
-        return;
-      }
+    // 2. Build Shrfly Gateway
+    async function initGateway() {
+      const destination = `https://t.me/${BOT_USERNAME}?start=v_${fileCode}`;
+      
+      // Shrfly Quick Link API Endpoint
+      const shrflyApi = `https://shrfly.com/api?api=${encodeURIComponent(SHRFLY_API_KEY)}&url=${encodeURIComponent(destination)}`;
 
-      verifyBtn.innerText = "🔄 Generating Link...";
-      verifyBtn.disabled = true;
+      let finalRedirectUrl = destination;
 
       try {
-        const response = await fetch(`/redirect?file=${encodeURIComponent(fileCode)}`);
+        const response = await fetch(shrflyApi);
         const data = await response.json();
 
-        if (data && data.redirectUrl) {
-          window.location.href = data.redirectUrl;
+        if (data && (data.status === "success" || data.shortenedUrl)) {
+          finalRedirectUrl = data.shortenedUrl;
         } else {
-          alert("Error generating access gateway. Please refresh.");
-          verifyBtn.disabled = false;
-          verifyBtn.innerText = "🚀 Continue to Secure Link";
+          // If direct API JSON returns an alternative structure
+          finalRedirectUrl = `https://shrfly.com/st?api=${encodeURIComponent(SHRFLY_API_KEY)}&url=${encodeURIComponent(destination)}`;
         }
       } catch (err) {
-        alert("Network error: " + err.message);
-        verifyBtn.disabled = false;
-        verifyBtn.innerText = "🚀 Continue to Secure Link";
+        // Fallback if browser blocks client-side API requests: Direct Shrfly link formulation
+        finalRedirectUrl = `https://shrfly.com/st?api=${encodeURIComponent(SHRFLY_API_KEY)}&url=${encodeURIComponent(destination)}`;
       }
+
+      // Ready State: Enable Button
+      btnSpinner.style.display = "none";
+      btnText.textContent = "🚀 Click Here to Verify & Unlock";
+      verifyBtn.disabled = false;
+
+      verifyBtn.addEventListener("click", () => {
+        window.location.href = finalRedirectUrl;
+      });
     }
   </script>
 
